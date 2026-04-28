@@ -12,7 +12,7 @@ class PoliModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_poli', 'prefix'];
+    protected $allowedFields    = ['nama_poli', 'slug', 'prefix'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -30,12 +30,17 @@ class PoliModel extends Model
     // Validation
     protected $validationRules      = [
         'nama_poli' => 'required|is_unique[m_poli.nama_poli,id_poli,{id_poli}]',
+        'slug'      => 'required|alpha_dash|is_unique[m_poli.slug,id_poli,{id_poli}]',
         'prefix' => 'required|is_unique[m_poli.prefix,id_poli,{id_poli}]'
     ];
     protected $validationMessages   = [
         'nama_poli' => [
             'required' => 'Nama poli wajib diisi.',
             'is_unique' => 'Nama poli sudah terdaftar.'
+        ],
+        'slug' => [
+            'required' => 'Slug wajib diisi.',
+            'is_unique' => 'Slug sudah terdaftar.'
         ],
         'prefix' => [
             'required' => 'Prefix wajib diisi.',

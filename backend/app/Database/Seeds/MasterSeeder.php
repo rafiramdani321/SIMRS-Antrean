@@ -8,6 +8,10 @@ class MasterSeeder extends Seeder
 {
     public function run()
     {
+        $this->db->table('m_dokter')->emptyTable();
+        $this->db->table('m_poli')->emptyTable();
+        $this->db->table('users')->emptyTable();
+
         $userData = [
             [
                 'username' => 'admin',
@@ -26,28 +30,35 @@ class MasterSeeder extends Seeder
         $this->db->table('users')->insertBatch($userData);
 
         $data = [
-            'A' => [
+            [
                 'poli' => 'Poli Umum',
-                'dokter' => 'dr. Muhammad Rafi'
+                'prefix' => 'A',
+                'dokter' => ['dr. Muhammad Rafi', 'dr. Calvin CS']
             ],
-            'B' => [
+            [
                 'poli' => 'Poli Gigi',
-                'dokter' => 'dr. Alif Akmal'
+                'prefix' => 'B',
+                'dokter' => ['dr. Alif Akmal']
             ]
         ];
 
-        foreach ($data as $prefix => $detail) {
+        helper('text');
+
+        foreach ($data as $item) {
             $this->db->table('m_poli')->insert([
-                'nama_poli' => $detail['poli'],
-                'prefix' => $prefix
+                'nama_poli' => $item['poli'],
+                'slug' => url_title($item['poli'], '-', true),
+                'prefix' => $item['prefix']
             ]);
 
-            $poliId = $this->db->insertID();
+            $poliId = $this->db->insertID('m_poli', 'id_poli');
 
-            $this->db->table('m_dokter')->insert([
-                'id_poli' => $poliId,
-                'nama_dokter' => $detail['dokter']
-            ]);
+            foreach ($item['dokter'] as $namaDokter) {
+                $this->db->table('m_dokter')->insert([
+                    'id_poli' => $poliId,
+                    'nama_dokter' => $namaDokter
+                ]);
+            }
         }
     }
 }
