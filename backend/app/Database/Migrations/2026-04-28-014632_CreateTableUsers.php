@@ -10,7 +10,7 @@ class CreateTableUsers extends Migration
     {
         $this->forge->addField([
             'id'         => ['type' => 'INT', 'auto_increment' => true],
-            'username'   => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false],
+            'username'   => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false, 'is_unique' => true],
             'password'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => false],
             'nama_lengkap' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false],
             'role'       => [

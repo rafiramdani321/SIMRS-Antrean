@@ -13,7 +13,7 @@ class CreateTransaksiAntrean extends Migration
             'id_poli' => ['type' => 'INT', 'null' => false],
             'id_dokter' => ['type' => 'INT', 'null' => false],
             'nama_pasien' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => false],
-            'nomor_antrean' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false],
+            'nomor_antrean' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false, 'is_unique' => true],
             'status' => ['type' => 'VARCHAR', 'constraint' => 20, 'default' => 'menunggu', 'null' => false],
             'created_at' => ['type' => 'TIMESTAMP', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'), 'null' => false]
         ]);
